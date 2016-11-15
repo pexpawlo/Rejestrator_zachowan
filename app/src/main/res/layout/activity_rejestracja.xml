@@ -7,20 +7,51 @@
     android:orientation="vertical"
     tools:context="com.example.pexpa.rejestrator.Rejestracja">
 
-    <Button
-        android:text="+1"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dodaj_zdarzenie_button"
-        android:layout_weight="20"
-        />
-
-    <Button
-        android:text="Zakończ badanie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/zakoncz_badanie_button"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        />
+        android:weightSum="1">
+
+
+
+        <Button
+            android:text="+1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dodaj_zdarzenie_button"
+            android:layout_weight="1.00"
+            />
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pokazKlikniecia"
+                android:layout_weight="1" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/pokazCzas"
+                android:layout_weight="1" />
+        </LinearLayout>
+        <Button
+            android:text="Zakończ badanie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/zakoncz_badanie_button" />
+    </LinearLayout>
+
+
 </LinearLayout>
 
