@@ -5,9 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+
+import bazadanych.DBManager;
+import bazadanych.Patient;
+import bazadanych.PatientAdapter;
 
 import static java.lang.Integer.parseInt;
 
@@ -18,6 +24,7 @@ public class RozpocznijBadanieMenu extends AppCompatActivity {
     private RadioGroup rg1;
     private EditText edit;
     private boolean wybor=false;
+    Button rbb;
     private void actv(final boolean active)
     {
         edit.setEnabled(active);
@@ -32,7 +39,25 @@ public class RozpocznijBadanieMenu extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rozpocznij_badanie_menu);
+
+       /* PRZYKŁAD LISTY */
+        ListView pacjenci = (ListView) findViewById(R.id.roz_bad);
+        DBManager db = new DBManager(this);
+        rbb = (Button) findViewById(R.id.rozpocznij_badanie_button);
+        PatientAdapter adapter = new PatientAdapter(db.getAllPatients(null), this);
         edit = (EditText) findViewById(R.id.liczbaMinut);
+        pacjenci.setAdapter(adapter);
+        pacjenci.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Patient a = (Patient) (adapterView.getItemAtPosition(i));
+                rbb.setText("ID:" + l + " imie: " + a.getName());
+            }
+        });
+        /*KONIEC PRZYKŁADU LISTY
+         *
+          * */
+
         actv(false);
         rg1 = (RadioGroup) findViewById(R.id.radioGroupMinuty);
         rg1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -41,12 +66,12 @@ public class RozpocznijBadanieMenu extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.radioButtonReczny:
-                        wybor=false;
+                        wybor = false;
                         actv(false);
                         break;
 
                     case R.id.radioButtonMinuty:
-                        wybor=true;
+                        wybor = true;
                         actv(true);
                         break;
 
@@ -56,23 +81,16 @@ public class RozpocznijBadanieMenu extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-        Button badaj=(Button)findViewById(R.id.rozpocznij_badanie_button);
+        Button badaj = (Button) findViewById(R.id.rozpocznij_badanie_button);
         badaj.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                Intent i=new Intent(getApplicationContext(),Rejestracja.class);
+                Intent i = new Intent(getApplicationContext(), Rejestracja.class);
                 edit = (EditText) findViewById(R.id.liczbaMinut);
-                liczbaMinuti  = Integer.parseInt(edit.getText().toString() );
-               i.putExtra("czas", liczbaMinuti);
+                liczbaMinuti = Integer.parseInt(edit.getText().toString());
+                i.putExtra("czas", liczbaMinuti);
                 i.putExtra("wybor", wybor);
                 startActivity(i);
             }
