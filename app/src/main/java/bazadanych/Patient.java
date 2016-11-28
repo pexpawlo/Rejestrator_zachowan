@@ -9,12 +9,14 @@ public class Patient {
     private long id;
     private String name;
     private String surname;
+    public boolean checked;
 
 
     public Patient(long id, String name, String surname) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        checked = false;
     }
 
     public String getName() {
@@ -41,6 +43,9 @@ public class Patient {
         this.id = id;
     }
 
+    public boolean isChecked(){
+        return checked;
+    }
 
 
 

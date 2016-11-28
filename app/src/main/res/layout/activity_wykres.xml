@@ -7,13 +7,14 @@
 android:orientation="vertical"
     tools:context="com.example.pexpa.rejestrator.Wykres">
 
-    <Button
-        android:text="wywalić buttona i wstawić wykres"
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_weight="20"
-        />
+        android:layout_weight="20"/>
+
+
     <Button
         android:text="Wyjdź do głównego menu"
         android:layout_width="match_parent"

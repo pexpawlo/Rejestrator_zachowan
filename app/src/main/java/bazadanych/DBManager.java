@@ -22,7 +22,7 @@ public class DBManager {
     private SQLiteDatabase database;
     private Context context;
     private DatabaseHelper dbHelper;
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
     private static final String DB_NAME = "autism_therapy.db";
     private static final String DB_TABLE_EVENT = "events";
     private static final String DB_TABLE_PATIENT = "patients";
@@ -39,6 +39,7 @@ public class DBManager {
         } catch (SQLException e) {
             database = dbHelper.getReadableDatabase();
         }
+
         return this;
     }
 
@@ -63,11 +64,12 @@ public class DBManager {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("drop table "+ DB_TABLE_PATIENT+";");
+  db.execSQL("delete from patients where id >20;" );
+         /*   db.execSQL("drop table "+ DB_TABLE_PATIENT+";");
             db.execSQL("CREATE TABLE " + DB_TABLE_PATIENT + "( id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, surname TEXT NOT NULL );");
             db.execSQL("CREATE TABLE " + DB_TABLE_THERAPY + "(id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER NOT NULL, start_time DATETIME, end_time DATETIME );");
             db.execSQL("CREATE TABLE " + DB_TABLE_EVENT + " ( id INTEGER PRIMARY KEY AUTOINCREMENT, patient_id INTEGER NOT NULL, event_time DATETIME );");
-
+*/
         }
     }
 
@@ -78,7 +80,6 @@ public class DBManager {
        return database.insert(DB_TABLE_PATIENT, null, cv);
 
     }
-
 
     public long insertEvent(long patient_id, Date eventTime) {
         ContentValues cv = new ContentValues();
@@ -176,5 +177,16 @@ public class DBManager {
         close();
         return therapies;
     }
+
+    public void updateTherapy(long patient_id, Date startTime, Date endTime, long idToUpdate){
+        ContentValues cv = new ContentValues();
+        cv.put("patient_id", patient_id);
+        cv.put("start_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime));
+        cv.put("end_time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endTime));
+        database.update(DB_TABLE_THERAPY,cv," id = " + idToUpdate, null);
+    }
+
+
+
 }
 
