@@ -15,7 +15,7 @@ import bazadanych.Event;
 import bazadanych.Therapy;
 
 public class Podsumowanie extends AppCompatActivity {
-
+long therapyID;
 
 
     @Override
@@ -39,6 +39,7 @@ TextView tv = (TextView) findViewById(R.id.CzasLiczba);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             ArrayList<Therapy> therapy = db.getAllTherapies("id = "+extras.get("idTerapii"));
+            therapyID =extras.getLong("idTerapii");
            tv.setText( new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(  therapy.get(0).getStartDate()) + " " +
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(therapy.get(0).getEndDate()));
 
@@ -57,6 +58,7 @@ TextView tv = (TextView) findViewById(R.id.CzasLiczba);
             public void onClick(View v) {
 
                 Intent i=new Intent(getApplicationContext(),Wykres.class);
+                i.putExtra("idTerapii", therapyID);
                 startActivity(i);
             }
         });

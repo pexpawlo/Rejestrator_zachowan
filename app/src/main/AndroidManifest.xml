@@ -24,7 +24,8 @@
         <activity android:name=".Ustawienia" />
         <activity android:name=".ListaPacjentow" />
         <activity android:name=".Podsumowanie" />
-        <activity android:name=".Wykres"></activity>
+        <activity android:name=".Wykres" />
+        <activity android:name=".SpisBadan"></activity>
     </application>
 
 </manifest>

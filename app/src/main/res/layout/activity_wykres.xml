@@ -15,6 +15,22 @@ android:orientation="vertical"
         android:layout_weight="20"/>
 
 
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewWykres"
+        android:layout_weight="0" />
+
+    <SeekBar
+        style="Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:progress="0"
+        android:id="@+id/seekBarWykres"
+        android:layout_weight="0" />
+
     <Button
         android:text="Wyjdź do głównego menu"
         android:layout_width="match_parent"
