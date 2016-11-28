@@ -25,7 +25,8 @@
         <activity android:name=".ListaPacjentow" />
         <activity android:name=".Podsumowanie" />
         <activity android:name=".Wykres" />
-        <activity android:name=".SpisBadan"></activity>
+        <activity android:name=".SpisBadan" />
+        <activity android:name=".PacjentInformacje"></activity>
     </application>
 
 </manifest>

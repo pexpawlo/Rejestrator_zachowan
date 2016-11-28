@@ -1,8 +1,10 @@
 package com.example.pexpa.rejestrator;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.util.LongSparseArray;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bazadanych.DBManager;
@@ -102,7 +105,7 @@ sizeMax*=1.5;
 
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+                pytanieWykres(MainActivity.class);
             }
         });
 
@@ -123,5 +126,32 @@ sizeMax*=1.5;
         chart.setData(data);
         chart.setFitBars(true); // make the x-axis fit exactly all bars
         chart.invalidate(); // refresh
+    }
+
+
+
+
+    public boolean pytanieWykres(final Class cls)
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Zakończyć oglądanie wykresu?")
+                .setMessage("Bedziesz mógł do niego wrócić poprzez opcję Przeglądaj wyniki.")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i=new Intent(getApplicationContext(),cls);
+
+                        startActivity(i);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //nic nie robimy
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+        return true;
+
     }
 }
