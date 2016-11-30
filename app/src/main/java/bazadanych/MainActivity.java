@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-/*
+/* aaa
     DBManager db;
     EditText name;
     EditText nazwisko;
