@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class PatientAdapter extends BaseAdapter {
 
-    ArrayList<Patient> patients;
+   public ArrayList<Patient> patients;
     LayoutInflater inflater;
     public int which = -1;
     public PatientAdapter(ArrayList<Patient> patients, Context context){
@@ -53,7 +53,7 @@ public class PatientAdapter extends BaseAdapter {
         PatientListElement holder = null;
         if(convertView == null) {
             holder = new PatientListElement();
-            convertView = inflater.inflate(R.layout.list, null);
+            convertView = inflater.inflate(R.layout.row_patient, null);
             holder.textView1 = (TextView) convertView.findViewById(R.id.code);
             holder.isChecked = (RadioButton) convertView.findViewById(R.id.radioButton);
 

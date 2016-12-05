@@ -18,16 +18,14 @@ import java.util.TimerTask;
 import bazadanych.DBManager;
 import bazadanych.Patient;
 
-public class Rejestracja extends AppCompatActivity {
+public class TherapyActivity extends AppCompatActivity {
 
-public int czas;
-    public boolean wybor;
 public  int iloscKlikniec=0;
     public  int czasKoncowy;
     public Date start;
     public Patient p;
     DBManager db;
-    public int seconds = 57;
+    public int seconds = 0;
     public int minutes = 0;
     public long therapyID;
 
@@ -35,13 +33,13 @@ public  int iloscKlikniec=0;
     @Override
     public void onBackPressed() {
 
-        pytanieRejestracja(RozpocznijBadanieMenu.class);
+        pytanieRejestracja(StartTherapyActivity.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rejestracja);
+        setContentView(R.layout.activity_therapy);
         start = new Date();
         Button button = (Button) findViewById(R.id.dodaj_zdarzenie_button);
 
@@ -59,7 +57,7 @@ public  int iloscKlikniec=0;
                         TextView tv = (TextView) findViewById(R.id.pokazCzas);
 
 
-                        if(seconds == 60)
+                        if(seconds == 59)
                         {
                             seconds=0;
                             minutes=minutes+1;
@@ -67,8 +65,8 @@ public  int iloscKlikniec=0;
 
                         }else{
                             seconds += 1;
-                            tv.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(start));
-                            //tv.setText(String.valueOf(minutes)+":"+(seconds<10?"0"+String.valueOf(seconds):String.valueOf(seconds)));
+                         //   tv.setText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(start));
+                            tv.setText(String.valueOf(minutes)+":"+(seconds<10?"0"+String.valueOf(seconds):String.valueOf(seconds)));
 
                         }
 
@@ -96,7 +94,7 @@ public  int iloscKlikniec=0;
                 db.insertEvent(p.getId(),date);
                 db.updateTherapy(p.getId(),start,date,therapyID);
                 db.close();
-                Toast.makeText(Rejestracja.this, "Pomyslnie dodano zdarzenie. Czas: " + data , Toast.LENGTH_SHORT).show();
+                Toast.makeText(TherapyActivity.this, "Pomyslnie dodano zdarzenie. Czas: " + data , Toast.LENGTH_SHORT).show();
             }
         });
         Bundle extras = getIntent().getExtras();
@@ -109,24 +107,12 @@ public  int iloscKlikniec=0;
             db.open();
             therapyID = db.insertTherapy(p.getId(),start,start);
             db.close();
-            wybor = extras.getBoolean("wybor");
-            if(wybor==true)
-            {
-                czas = extras.getInt("czas");
 
-            }
             //The key argument here must match that used in the other activity
         }
 
         TextView czass = (TextView) findViewById(R.id.pokazCzas);
-        if(wybor==true)
-        {
-            czass.setText("Pozostało " + czas + " minut");
-        }
-        else
-        {
-            czass.setText("Upłynęło " + czas + " minut");
-        }
+
         TextView info = (TextView) findViewById(R.id.pokazKlikniecia);
         info.setText("Pacjent: " + p.getName()+" "+ p.getSurname());
 
@@ -137,7 +123,7 @@ public  int iloscKlikniec=0;
             public void onClick(View v) {
 
 
-               pytanieRejestracja(Podsumowanie.class);
+               pytanieRejestracja(SummaryActivity.class);
 
             }
         });

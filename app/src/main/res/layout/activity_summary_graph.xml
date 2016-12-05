@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.pexpa.rejestrator.Wykres">
+    tools:context="com.example.pexpa.rejestrator.SummaryGraphActivity">
 
 
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
-        android:id="@+id/graph123"
+        android:id="@+id/activity_summary_graph_gv_graph"
         android:layout_weight="0.10" />
 
 
@@ -19,7 +19,7 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewWykres"
+        android:id="@+id/activity_summaty_graph_tv_intervals"
         android:layout_weight="0" />
 
     <SeekBar
@@ -28,14 +28,14 @@
         android:layout_height="wrap_content"
         android:max="5"
         android:progress="0"
-        android:id="@+id/seekBarWykres"
+        android:id="@+id/activity_summary_graph_sb_intervals"
         android:layout_weight="0" />
 
     <Button
         android:text="Wyjdź do głównego menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/wrocDoMenu"
+        android:id="@+id/activity_summary_graph_btn_back_to_menu"
         android:layout_weight="0.03"
         />
 

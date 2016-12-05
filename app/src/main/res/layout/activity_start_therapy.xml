@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_rozpoczij_badanie_menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.pexpa.rejestrator.StartTherapyActivity">
+
+    <TextView
+        android:text="Wybierz pacjenta:"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:textAlignment="center"
+        />
+
+
+    <ListView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="2"
+        android:id="@+id/activity_start_therapy_lv_patients" />
+
+
+    <Button
+    android:text="Rozpoczinj badanie"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/activity_start_therapy_btn_start"
+        android:layout_weight="0"/>
+</LinearLayout>

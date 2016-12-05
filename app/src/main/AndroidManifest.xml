@@ -18,15 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RozpocznijBadanieMenu" />
-        <activity android:name=".PrzegladajWyniki" />
-        <activity android:name=".Rejestracja" />
-        <activity android:name=".Ustawienia" />
-        <activity android:name=".ListaPacjentow" />
-        <activity android:name=".Podsumowanie" />
-        <activity android:name=".Wykres" />
-        <activity android:name=".SpisBadan" />
-        <activity android:name=".PacjentInformacje"></activity>
+        <activity android:name=".StartTherapyActivity" />
+        <activity android:name=".PatientListActivity" />
+        <activity android:name=".TherapyActivity" />
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".EditPatientsActivity" />
+        <activity android:name=".SummaryActivity" />
+        <activity android:name=".SummaryGraphActivity" />
+        <activity android:name=".TherapiesListActivity" />
+        <activity android:name=".EditPatientActivity"></activity>
     </application>
 
 </manifest>

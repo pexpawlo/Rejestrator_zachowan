@@ -26,7 +26,7 @@
         <Button
             android:layout_width="match_parent"
             app:srcCompat="@drawable/obrazek1"
-            android:id="@+id/rozpocznijBadanieButton"
+            android:id="@+id/activity_main_btn_start_therapy"
             android:text="ROZPOCZNIJ BADANIE"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -45,13 +45,14 @@
             android:scaleType="fitXY"
             android:textStyle="normal|bold"
             android:textSize="24sp"
-            android:onClick="onClick (MainActivity)" />
+            android:onClick="onClick (MainActivity)"
+            android:elevation="8dp" />
 
 
         <Button
             android:layout_width="match_parent"
             app:srcCompat="@drawable/obrazek2"
-            android:id="@+id/przegladajWynikiButton"
+            android:id="@+id/activity_main_btn_show_graphs"
             android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="2"
@@ -73,7 +74,7 @@
         <Button
             android:layout_width="match_parent"
             app:srcCompat="@drawable/obrazek3"
-            android:id="@+id/ustawieniaButton"
+            android:id="@+id/activity_main_btn_settings"
             android:textColor="@color/light_font"
             android:shadowColor="@color/text_shadow"
             android:shadowDx="2"

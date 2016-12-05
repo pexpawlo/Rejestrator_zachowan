@@ -3,15 +3,22 @@ package com.example.pexpa.rejestrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PacjentInformacje extends AppCompatActivity {
+public class EditPatientActivity extends AppCompatActivity {
+
+
+    long patientId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pacjent_informacje);
+        setContentView(R.layout.activity_edit_patient);
+        getExtras();
+    }
+
+    private void getExtras(){
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int which = extras.getInt("id_pacjenta");
+            patientId = extras.getInt("id_pacjenta");
         }
     }
 }

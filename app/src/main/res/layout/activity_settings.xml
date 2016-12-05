@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 android:orientation="vertical"
-    tools:context="com.example.pexpa.rejestrator.Ustawienia">
+    tools:context="com.example.pexpa.rejestrator.SettingsActivity">
     <Button
         android:text="Zarządzaj pacjentami"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/zarzadzaj_pacjentami_button"
+        android:id="@+id/activity_settings_btn_edit_patients"
         android:layout_weight="1"
         />
 

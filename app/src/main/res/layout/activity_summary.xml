@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_podsumowanie"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.pexpa.rejestrator.SummaryActivity"
+    android:weightSum="1">
+
+
+    <TextView
+        android:text="Podsumowanie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Podsumowanie"
+        android:layout_weight="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:fontFamily="sans-serif"
+        android:paddingBottom="40dp"
+        android:textStyle="normal|bold"
+        android:textAllCaps="false"
+        android:typeface="monospace"
+        android:textSize="34sp"
+        android:textAlignment="center" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_weight="0.07"
+        android:layout_height="85dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:text="Czas rozpoczęcia terapii:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="---"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_summary_tv_start_time"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_weight="0.18"
+        android:layout_height="85dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:text="Czas zakończenia terapii:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd"
+            android:textAllCaps="false"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="---"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_summary_tv_end_time"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:text="Czas trwania terapii:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="---"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_summary_tv_time"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_marginRight="15dp">
+
+        <TextView
+            android:text="Ilość zdarzeń:"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd"
+            android:textStyle="normal|italic" />
+
+        <TextView
+            android:text="---"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_summary_tv_events"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textAlignment="textEnd" />
+    </LinearLayout>
+
+    <Button
+        android:text="Pokaż wykres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_summary_btn_show_graph" />
+
+    <Button
+        android:text="Wróć do menu głównego"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_summary_btn_back_to_main_menu" />
+
+
+
+</LinearLayout>

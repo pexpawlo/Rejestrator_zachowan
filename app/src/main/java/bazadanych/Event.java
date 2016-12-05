@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Event {
+
     private long patientId;
     private long id;
     private Date date;
@@ -33,11 +34,11 @@ public class Event {
         this.date = date;
     }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(long id){
-        this.id=id;
+    public void setId(long id) {
+        this.id = id;
     }
 }
