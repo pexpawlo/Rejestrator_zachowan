@@ -58,7 +58,7 @@ public class PatientListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getApplicationContext(), TherapiesListActivity.class);
+                Intent i = new Intent(getApplicationContext(), ChooseGraphTypeActivity.class);
                 i.putExtra("id_pacjenta", adapter.which);
                 startActivity(i);
             }

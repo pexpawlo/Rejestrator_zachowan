@@ -26,7 +26,9 @@
         <activity android:name=".SummaryActivity" />
         <activity android:name=".SummaryGraphActivity" />
         <activity android:name=".TherapiesListActivity" />
-        <activity android:name=".EditPatientActivity"></activity>
+        <activity android:name=".EditPatientActivity" />
+        <activity android:name=".ChooseGraphTypeActivity" />
+        <activity android:name=".CalendarGraphActivity"></activity>
     </application>
 
 </manifest>
