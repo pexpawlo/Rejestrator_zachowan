@@ -23,7 +23,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 
 import bazadanych.DBManager;
 import bazadanych.Event;
@@ -47,8 +52,6 @@ public class CalendarGraphActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_graph);
         patientID = getIntent().getExtras().getLong("id_pacjenta");
-
-        therapies = db.getAllTherapies(" patient_id =" + patientID);
 
         final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
@@ -85,47 +88,33 @@ public class CalendarGraphActivity extends AppCompatActivity {
         ArrayList<DataPoint> entries = new ArrayList<>();
         entries.add(new DataPoint(0, 0));
         long addTime = 60 * 60 * 24 * 1000;
-
-
-
         long start = dataStart;
         long end = dataStop;
-        int xAxisPosition = 0;
-        int sizeMax = 0;
+        Long intervalMilis = new Long(intervalValues[interval]*1000*60);
 
-        int yValue = 0;
-        for (long j = start; j <= end; j += addTime) {//365
-            for (long p = j; p < j + addTime; p += intervalValues[interval] * 1000 * 60) {
-                boolean eventOccured = false;
-                for (int l = 0; l < eventList.size(); l++) {
+        Map<Long,Boolean> mapa = new HashMap<Long,Boolean>();
+        for(int i=0; i<eventList.size(); i++){
 
-                    if (eventList.get(l).getPatientId() == patientID && eventList.get(l).getDate().getTime() >= p && eventList.get(l).getDate().getTime() < p + intervalValues[interval] * 1000 * 60) {
-                        eventOccured = true;
-                        break;
-                    }
-                }
-                if (eventOccured == true) yValue++;
-            }
-            boolean thepapyOccured = false;
-            if(yValue>0){
-                thepapyOccured = true;
-            }
-            else{
-            for (int o = 0; o < therapies.size(); o++) {
-
-                if (therapies.get(o).getStartDate().getTime() >= j && therapies.get(o).getEndDate().getTime() < j + addTime) {
-                    thepapyOccured = true;
-                    break;
-                }
-            }
-            }
-            if (thepapyOccured) {
-                entries.add(new DataPoint(xAxisPosition, yValue));
-            }
-            if (sizeMax < yValue)
-                sizeMax = yValue;
-            xAxisPosition++;
-            yValue = 0;
+        long timeFromStart = eventList.get(i).getDate().getTime() - dataStart;
+            Long which = new Long (timeFromStart/intervalMilis);
+            mapa.put(which,true);
+        }
+        long dayInMillis = (24*60*60*1000)/(intervalValues[interval]*1000*60);
+        Map<Long, Long> wykres = new HashMap<>();
+        for (Long a: mapa.keySet()) {
+            long xd = a/dayInMillis;
+            Long number = wykres.get(xd);
+            if(number==null) number = new Long(1);
+            else number++;
+            wykres.put(xd,number);
+        }
+     List<Long> keys = new ArrayList<Long>();
+        for (Long a: wykres.keySet()) {
+            keys.add(a);
+        }
+        Collections.sort(keys);
+        for(int i=0; i< keys.size(); i++){
+            entries.add(new DataPoint(keys.get(i), wykres.get(keys.get(i))));
         }
         DataPoint[] points = new DataPoint[entries.size()];
         for (int j = 0; j < entries.size(); j++) points[j] = entries.get(j);

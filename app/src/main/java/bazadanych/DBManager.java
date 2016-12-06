@@ -110,6 +110,13 @@ public class DBManager {
         else return false;
     }
 
+    public int getPatientsNumber(String whereClause) {
+        ArrayList<Patient> patients = new ArrayList<Patient>();
+        String[] columns = {"id"};
+        Cursor cursor = database.query(DB_TABLE_PATIENT, columns, whereClause, null, null, null, null);
+        return cursor.getCount();
+    }
+
     public ArrayList<Patient> getAllPatients(String whereClause) {
         ArrayList<Patient> patients = new ArrayList<Patient>();
         String[] columns = {"id", "name", "surname"};
@@ -127,6 +134,14 @@ public class DBManager {
         close();
         return patients;
     }
+
+    public int getEventsNumber(String whereClause) {
+        ArrayList<Event> events = new ArrayList<Event>();
+        String columns[] = {"id"};
+        Cursor cursor = database.query(DB_TABLE_EVENT, columns, whereClause, null, null, null, null);
+        return cursor.getCount();
+    }
+
 
     public ArrayList<Event> getAllEvents(String whereClause) {
         ArrayList<Event> events = new ArrayList<Event>();
@@ -149,6 +164,13 @@ public class DBManager {
         }
         close();
         return events;
+    }
+
+    public int getTherapiesNumber(String whereClause) {
+        ArrayList<Therapy> therapies = new ArrayList<Therapy>();
+        String columns[] = {"id"};
+        Cursor cursor = database.query(DB_TABLE_THERAPY, columns, whereClause, null, null, null, null);
+        return cursor.getCount();
     }
 
     public ArrayList<Therapy> getAllTherapies(String whereClause) {

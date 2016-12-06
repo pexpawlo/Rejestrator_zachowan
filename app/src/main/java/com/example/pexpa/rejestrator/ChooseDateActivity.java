@@ -31,6 +31,8 @@ public class ChooseDateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_date);
         startDate = (EditText) findViewById(R.id.activity_choose_date_et_start);
         endDate = (EditText) findViewById(R.id.activity_choose_date_et_end);
+        startDate.setText("2016-01-01");
+        endDate.setText("2016-12-31");
         patientTextView = (TextView) findViewById(R.id.activity_choose_date_tv_patient);
         DBManager db = new DBManager(this);
         Patient patient = db.getAllPatients(" id = "+getIntent().getExtras().getLong("id_pacjenta")).get(0);
@@ -69,33 +71,33 @@ public class ChooseDateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                 isStartDate = false;
+                isStartDate = false;
                 new DatePickerDialog(ChooseDateActivity.this, setTodayDate, date
                         .get(Calendar.YEAR), date.get(Calendar.MONTH),
                         date.get(Calendar.DAY_OF_MONTH)).show();
 
             }
         });
-    button = (Button) findViewById(R.id.activity_choose_date_btn_show_graph);
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent i=new Intent(getApplicationContext(),CalendarGraphActivity.class);
-            i.putExtra("id_pacjenta", getIntent().getExtras().getLong("id_pacjenta"));
-            i.putExtra("start_date",startDate.getText().toString());
-            i.putExtra("end_date",endDate.getText().toString());
-            startActivity(i);
-        }
-    });
+        button = (Button) findViewById(R.id.activity_choose_date_btn_show_graph);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(getApplicationContext(),CalendarGraphActivity.class);
+                i.putExtra("id_pacjenta", getIntent().getExtras().getLong("id_pacjenta"));
+                i.putExtra("start_date",startDate.getText().toString());
+                i.putExtra("end_date",endDate.getText().toString());
+                startActivity(i);
+            }
+        });
     }
     private void updateLabel() {
 
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-if(isStartDate)
-        startDate.setText(sdf.format(date.getTime()));
+        if(isStartDate)
+            startDate.setText(sdf.format(date.getTime()));
         else
-    endDate.setText(sdf.format(date.getTime()));
+            endDate.setText(sdf.format(date.getTime()));
     }
 
 }
