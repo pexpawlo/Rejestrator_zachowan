@@ -15,13 +15,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/editText3" />
+        <com.jjoe64.graphview.GraphView
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            android:id="@+id/activity_calendar_graph_gv_graph"
+            android:layout_weight="0.10" />
+        <TextView
+            android:text="TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_calendar_graph_tv_intervals" />
+        <SeekBar
+            style="Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="5"
+            android:progress="0"
+            android:id="@+id/activity_calendar_graph_sb_intervals" />
+        <Button
+            android:text="Wróć do głównego menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_calendar_graph_btn_back_to_menu" />
+
+
+    </LinearLayout>
 
 </RelativeLayout>
