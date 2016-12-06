@@ -99,7 +99,7 @@ public  int iloscKlikniec=0;
         });
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int which =  extras.getInt("id_pacjenta");
+            long which =  extras.getLong("id_pacjenta");
             DBManager db = new DBManager(this);
             db.open();
             p = db.getAllPatients(" id = " + which).get(0);

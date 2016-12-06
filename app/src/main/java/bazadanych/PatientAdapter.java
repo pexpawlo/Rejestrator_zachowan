@@ -20,7 +20,7 @@ public class PatientAdapter extends BaseAdapter {
 
    public ArrayList<Patient> patients;
     LayoutInflater inflater;
-    public int which = -1;
+    public long which = -1;
     public PatientAdapter(ArrayList<Patient> patients, Context context){
         inflater = LayoutInflater.from(context);
         this.patients = patients;

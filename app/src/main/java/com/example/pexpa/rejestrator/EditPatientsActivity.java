@@ -9,13 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import java.util.ArrayList;
 import bazadanych.DBManager;
-import bazadanych.Patient;
 import bazadanych.PatientAdapter;
 
 public class EditPatientsActivity extends AppCompatActivity {
-    ArrayList<Patient> patientsList;
+ //   ArrayList<Patient> patientsList;
     PatientAdapter adapter;
     DBManager db;
 
@@ -23,34 +21,36 @@ public class EditPatientsActivity extends AppCompatActivity {
     Button deleteButton;
     Button addButton;
     ListView patientsListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_patients);
 
         db = new DBManager(this);
+        setPatientsListView();
         setDeleteButton();
         setEditButton();
         setAddButton();
-        setPatientsListView();
+
     }
 
-    private boolean showDeleteAlertDialog(int id) {
+    private boolean showDeleteAlertDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Usunąć pacjenta?")
                 .setMessage("Wszystkie dane i badania zostaną usunięte")
                 .setPositiveButton("TAK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         db.open();
-                        db.deletePatient(which);
+                        db.deletePatient(adapter.which);
                         adapter.patients=db.getAllPatients(null);
                         db.close();
-                        adapter.notifyDataSetChanged();
+                       adapter.notifyDataSetChanged();
+                        //TODO: nie usuwa jeszcze terapii usuwanego pacjenta
                     }
                 })
                 .setNegativeButton("NIE", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //nic nie robimy
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -64,8 +64,7 @@ public class EditPatientsActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDeleteAlertDialog(adapter.which);
-
+                showDeleteAlertDialog();
             }
         });
     }
@@ -91,7 +90,7 @@ public class EditPatientsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i=new Intent(getApplicationContext(),EditPatientActivity.class);
+                Intent i=new Intent(getApplicationContext(),AddPatientActivity.class);
                 i.putExtra("id_pacjenta", adapter.which);
                 startActivity(i);
             }
@@ -101,25 +100,19 @@ public class EditPatientsActivity extends AppCompatActivity {
 
     private void setPatientsListView(){
         patientsListView = (ListView) findViewById(R.id.activity_edit_patients_lv_patients);
-        patientsList=db.getAllPatients(null);
-        adapter = new PatientAdapter(patientsList, this);
-
+        adapter = new PatientAdapter(db.getAllPatients(null), this);
         patientsListView.setAdapter(adapter);
 
 
         patientsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Patient a = (Patient) (adapterView.getItemAtPosition(i));
 
-                for(int aa=0; aa<patientsList.size(); aa++){
-                    patientsList.get(aa).checked = false;
+                for(int aa=0; aa<adapter.patients.size(); aa++){
+                    adapter.patients.get(aa).checked = false;
                 }
-                patientsList.get(i).checked = true;
-                adapter.which = (int) patientsList.get(i).getId();
-                editButton.setEnabled(true);
-                addButton.setEnabled(true);
-                deleteButton.setEnabled(true);
+                adapter.patients.get(i).checked = true;
+                adapter.which = adapter.patients.get(i).getId();
                 adapter.notifyDataSetChanged();
             }
         });

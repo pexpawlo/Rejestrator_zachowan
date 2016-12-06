@@ -12,6 +12,7 @@ public class Therapy {
     private long patientId;
     private Date startDate;
     private Date endDate;
+    private boolean checked;
 
     public Therapy(long id, long patientId, Date startDate, Date endDate) {
         this.id = id;
@@ -50,5 +51,13 @@ public class Therapy {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

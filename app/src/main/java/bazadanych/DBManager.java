@@ -183,6 +183,12 @@ public class DBManager {
         database.update(DB_TABLE_THERAPY, cv, " id = " + idToUpdate, null);
     }
 
+    public void updatePatient(long idToUpdate, String name, String surname){
+        ContentValues cv = new ContentValues();
+        cv.put("name", name);
+        cv.put("surname", surname);
+        database.update(DB_TABLE_PATIENT,cv," id = " + idToUpdate, null);
+    }
 
 }
 

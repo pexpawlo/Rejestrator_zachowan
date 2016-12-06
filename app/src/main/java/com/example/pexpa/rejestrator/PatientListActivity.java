@@ -14,8 +14,6 @@ import bazadanych.PatientAdapter;
 
 public class PatientListActivity extends AppCompatActivity {
 
-
-    ArrayList<Patient> patientsList;
     PatientAdapter adapter;
     Button showPatientTherapiesButton;
     DBManager db;
@@ -31,20 +29,20 @@ public class PatientListActivity extends AppCompatActivity {
     }
 
     private void setPatientsListView(){
-        patientsList = db.getAllPatients(null);
+
         patientsListView = (ListView) findViewById(R.id.listViewPacjenci);
-        adapter = new PatientAdapter(patientsList, this);
+        adapter = new PatientAdapter(db.getAllPatients(null), this);
         patientsListView.setAdapter(adapter);
         patientsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Patient a = (Patient) (adapterView.getItemAtPosition(i));
 
-                for(int aa=0; aa<patientsList.size(); aa++){
-                    patientsList.get(aa).checked = false;
+                for(int aa=0; aa<adapter.patients.size(); aa++){
+                    adapter.patients.get(aa).checked = false;
                 }
-                patientsList.get(i).checked = true;
-                adapter.which = (int) patientsList.get(i).getId();
+                adapter.patients.get(i).checked = true;
+                adapter.which = (int) adapter.patients.get(i).getId();
                 showPatientTherapiesButton.setEnabled(true);
                 adapter.notifyDataSetChanged();
             }

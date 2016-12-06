@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Rejestrator_zachowan.iml" filepath="$PROJECT_DIR$/Rejestrator_zachowan.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rejestrator_zachowan_nowy.iml" filepath="$PROJECT_DIR$/Rejestrator_zachowan_nowy.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
