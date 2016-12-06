@@ -33,22 +33,36 @@ public class CalendarGraphActivity extends AppCompatActivity {
 
     TextView intervalsTextView;
     GraphView graph;
-
+    ArrayList<Therapy> therapies;
     int[] intervalValues = {1, 5, 10, 15, 20, 30};
     DBManager db = new DBManager(this);
     SeekBar intervalsSeekBar;
     Button backToMainMenuButton;
-
+    ArrayList<Event> eventList;
+    Date dataStart = new Date();
+    Date dataStop = new Date();
+    long patientID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_graph);
+        patientID = getIntent().getExtras().getLong("id_pacjenta");
 
+        therapies = db.getAllTherapies(" patient_id =" + patientID);
+
+        final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            dataStart = SDF.parse(getIntent().getExtras().getString("start_date")+" 00:00:00");
+            dataStop = SDF.parse(getIntent().getExtras().getString("end_date")+" 23:59:59");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        eventList = db.getAllEvents(" patient_id =" + patientID + " AND event_time>='" + SDF.format(dataStart) + "' AND event_time<'" + SDF.format(dataStop) + "';");
         intervalsTextView = (TextView) findViewById(R.id.activity_calendar_graph_tv_intervals);
         graph = (GraphView) findViewById(R.id.activity_calendar_graph_gv_graph);
         setBackToMainMenuButton();
         setIntervalsSeekBar();
-        setGraph(0);
+        setGraph(0,dataStart.getTime(),dataStop.getTime(),patientID);
     }
 
     private void setBackToMainMenuButton() {
@@ -65,47 +79,45 @@ public class CalendarGraphActivity extends AppCompatActivity {
         });
     }
 
-    private void setGraph(int interval) {
+    private void setGraph(int interval,long dataStart,long dataStop,long patientID ) {
 
         intervalsTextView.setText("Interwały: " + intervalValues[interval] + " min.");
         ArrayList<DataPoint> entries = new ArrayList<>();
         entries.add(new DataPoint(0, 0));
-        long patientID = 10;//TODO
-        Date dataStart = new Date();
-        Date dataStop = new Date();
-        ArrayList<Therapy> therapies = db.getAllTherapies(" patient_id =" + patientID);
-
         long addTime = 60 * 60 * 24 * 1000;
-        final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            dataStart = SDF.parse("2010-02-02 12:12:12");//TODO
-            dataStop = SDF.parse("2010-02-20 12:12:12");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        long start = dataStart.getTime();
-        long end = dataStop.getTime();
+
+
+
+        long start = dataStart;
+        long end = dataStop;
         int xAxisPosition = 0;
         int sizeMax = 0;
-        ArrayList<Event> EventList = db.getAllEvents(" patient_id =" + patientID + " AND event_time>='" + SDF.format(dataStart) + "' AND event_time<'" + SDF.format(dataStop) + "';");
+
         int yValue = 0;
-        for (long j = start; j <= end; j += addTime) {
+        for (long j = start; j <= end; j += addTime) {//365
             for (long p = j; p < j + addTime; p += intervalValues[interval] * 1000 * 60) {
                 boolean eventOccured = false;
-                for (int l = 0; l < EventList.size(); l++) {
+                for (int l = 0; l < eventList.size(); l++) {
 
-                    if (EventList.get(l).getPatientId() == patientID && EventList.get(l).getDate().getTime() >= p && EventList.get(l).getDate().getTime() < p + intervalValues[interval] * 1000 * 60) {
+                    if (eventList.get(l).getPatientId() == patientID && eventList.get(l).getDate().getTime() >= p && eventList.get(l).getDate().getTime() < p + intervalValues[interval] * 1000 * 60) {
                         eventOccured = true;
+                        break;
                     }
                 }
                 if (eventOccured == true) yValue++;
             }
             boolean thepapyOccured = false;
+            if(yValue>0){
+                thepapyOccured = true;
+            }
+            else{
             for (int o = 0; o < therapies.size(); o++) {
+
                 if (therapies.get(o).getStartDate().getTime() >= j && therapies.get(o).getEndDate().getTime() < j + addTime) {
                     thepapyOccured = true;
                     break;
                 }
+            }
             }
             if (thepapyOccured) {
                 entries.add(new DataPoint(xAxisPosition, yValue));
@@ -118,11 +130,12 @@ public class CalendarGraphActivity extends AppCompatActivity {
         DataPoint[] points = new DataPoint[entries.size()];
         for (int j = 0; j < entries.size(); j++) points[j] = entries.get(j);
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(points);
-        graph.getGridLabelRenderer().setLabelHorizontalHeight(115);//TODO
+
         series.setDrawDataPoints(true);
         graph.removeAllSeries();
         graph.addSeries(series);
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(90);
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(115);//TODO
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(30);
         graph.getViewport().setMaxY(30);
@@ -155,7 +168,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
         intervalsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                setGraph(i);
+                setGraph(0,dataStart.getTime(),dataStop.getTime(),patientID);
             }
 
             @Override

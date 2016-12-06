@@ -81,6 +81,9 @@ public class ChooseDateActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent i=new Intent(getApplicationContext(),CalendarGraphActivity.class);
+            i.putExtra("id_pacjenta", getIntent().getExtras().getLong("id_pacjenta"));
+            i.putExtra("start_date",startDate.getText().toString());
+            i.putExtra("end_date",endDate.getText().toString());
             startActivity(i);
         }
     });

@@ -132,7 +132,7 @@ public class DBManager {
         ArrayList<Event> events = new ArrayList<Event>();
         String columns[] = {"id", "patient_id", "event_time"};
         open();
-        Cursor cursor = database.query(DB_TABLE_EVENT, columns, whereClause, null, null, null, null);
+        Cursor cursor = database.query(DB_TABLE_EVENT, columns, whereClause, null, null, null, " event_time");
         cursor.moveToFirst();
         while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -155,7 +155,7 @@ public class DBManager {
         ArrayList<Therapy> therapies = new ArrayList<Therapy>();
         String columns[] = {"id", "patient_id", "start_time", "end_time"};
         open();
-        Cursor cursor = database.query(DB_TABLE_THERAPY, columns, whereClause, null, null, null, null);
+        Cursor cursor = database.query(DB_TABLE_THERAPY, columns, whereClause, null, null, null, " end_time");
         cursor.moveToFirst();
         while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
