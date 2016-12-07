@@ -1,6 +1,8 @@
 package com.example.pexpa.rejestrator;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,13 +28,33 @@ public class AddPatientActivity extends AppCompatActivity {
         addPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.open();
-                db.insertPatient(nameEditText.getText().toString(), surnameEditText.getText().toString());
-                db.close();
-                Intent i=new Intent(getApplicationContext(),EditPatientsActivity.class);
-                startActivity(i);
+                if(nameEditText.getText().toString().equals("") || surnameEditText.getText().toString().equals(""))
+                {
+                    wrongNamesAlertDialog();
+                }
+                else {
+                    db.open();
+                    db.insertPatient(nameEditText.getText().toString(), surnameEditText.getText().toString());
+                    db.close();
+                    Intent i = new Intent(getApplicationContext(), EditPatientsActivity.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                }
             }
         });
+
+    }
+
+
+
+    public boolean wrongNamesAlertDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Imię i Nazwisko nie mogą być puste!")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+        return true;
 
     }
 }

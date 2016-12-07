@@ -10,12 +10,14 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import bazadanych.DBManager;
@@ -52,22 +54,19 @@ public class SummaryGraphActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 showBackToManMenuAlertDialog(MainActivity.class);
             }
         });
     }
 
-    private void setGraph(int interval){
+    private void setGraph(final int interval){
         intervalsTextView.setText("Interwały: " +intervalValues[interval]+" min.");
         ArrayList<DataPoint> entries = new ArrayList<>();
         entries.add(new DataPoint(0,0));
         ArrayList<Therapy> therapies = db.getAllTherapies(" id ="+getIntent().getExtras().getLong("idTerapii"));
         long start = therapies.get(0).getStartDate().getTime();
         long end = therapies.get(0).getEndDate().getTime();
-        long addTime = intervalValues[interval]*1000;
+        long addTime = intervalValues[interval]*1000*60;
         SimpleDateFormat SDF =new  SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int k =1;
         int sizeMax = 0;
@@ -76,7 +75,8 @@ public class SummaryGraphActivity extends AppCompatActivity {
             String startString = SDF.format(j);
             String endString = SDF.format(j+addTime);
             ArrayList<Event> EventList = db.getAllEvents(" event_time>='"+startString +"' AND event_time<'"+endString+"';");
-            if(EventList.size()>0)entries.add(new DataPoint(k,EventList.size()));
+           // if(EventList.size()>0)
+            entries.add(new DataPoint(k,EventList.size()));
             if(sizeMax< EventList.size())
                 sizeMax = EventList.size();
             k++;
@@ -87,7 +87,22 @@ public class SummaryGraphActivity extends AppCompatActivity {
 
         graph.removeAllSeries();
         graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    if (value*intervalValues[interval] % 5 == 0) {
+                        return value*intervalValues[interval]+" min";
 
+                    } else return "";
+                } else {
+
+                    return super.formatLabel(value, isValueX);
+                }
+            }
+        });
+        graph.getGridLabelRenderer().setHorizontalLabelsAngle(90);
+        graph.getGridLabelRenderer().setLabelHorizontalHeight(100);//TODO
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(10);
         graph.getViewport().setMaxY(sizeMax*1.5);
@@ -128,7 +143,7 @@ public class SummaryGraphActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i=new Intent(getApplicationContext(),cls);
-
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
                 })

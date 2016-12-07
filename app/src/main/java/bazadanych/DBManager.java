@@ -179,6 +179,7 @@ public class DBManager {
         open();
         Cursor cursor = database.query(DB_TABLE_THERAPY, columns, whereClause, null, null, null, " end_time");
         cursor.moveToFirst();
+        cursor.getCount();
         while (!cursor.isAfterLast() && cursor.getCount() > 0) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {

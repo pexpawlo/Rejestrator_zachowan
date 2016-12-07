@@ -37,6 +37,7 @@ public class EditPatientActivity extends AppCompatActivity {
                 db.updatePatient(patientId, nameEditText.getText().toString(),surnameEditText.getText().toString());
                 db.close();
                 Intent i=new Intent(getApplicationContext(),EditPatientsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
         });

@@ -1,7 +1,9 @@
 package com.example.pexpa.rejestrator;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,8 +12,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import bazadanych.DBManager;
 import bazadanych.Patient;
@@ -24,6 +28,8 @@ public class ChooseDateActivity extends AppCompatActivity {
     boolean isStartDate;
     TextView patientTextView;
     Button button;
+    Date dateFirst;
+    Date dateSecond;
     DatePickerDialog.OnDateSetListener setTodayDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,6 @@ public class ChooseDateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_date);
         startDate = (EditText) findViewById(R.id.activity_choose_date_et_start);
         endDate = (EditText) findViewById(R.id.activity_choose_date_et_end);
-        startDate.setText("2016-01-01");
-        endDate.setText("2016-12-31");
         patientTextView = (TextView) findViewById(R.id.activity_choose_date_tv_patient);
         DBManager db = new DBManager(this);
         Patient patient = db.getAllPatients(" id = "+getIntent().getExtras().getLong("id_pacjenta")).get(0);
@@ -40,7 +44,10 @@ public class ChooseDateActivity extends AppCompatActivity {
         startDate.setFocusable(false);
         endDate.setFocusable(false);
         isStartDate = false;
+
         date = Calendar.getInstance();
+        String myFormat = "yyyy-MM-dd";
+        final SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
         setTodayDate = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -71,33 +78,68 @@ public class ChooseDateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                isStartDate = false;
+                 isStartDate = false;
                 new DatePickerDialog(ChooseDateActivity.this, setTodayDate, date
                         .get(Calendar.YEAR), date.get(Calendar.MONTH),
                         date.get(Calendar.DAY_OF_MONTH)).show();
 
             }
         });
-        button = (Button) findViewById(R.id.activity_choose_date_btn_show_graph);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i=new Intent(getApplicationContext(),CalendarGraphActivity.class);
+    button = (Button) findViewById(R.id.activity_choose_date_btn_show_graph);
+    button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            try {
+                 dateFirst = sdf.parse(startDate.getText().toString());
+                 dateSecond = sdf.parse(endDate.getText().toString());
+                System.out.println(date);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            if(dateFirst==null || dateSecond==null || dateFirst.getTime()>dateSecond.getTime()){
+                wrongDatesAlertDialog();
+            }
+
+            else {
+                Intent i = new Intent(getApplicationContext(), CalendarGraphActivity.class);
                 i.putExtra("id_pacjenta", getIntent().getExtras().getLong("id_pacjenta"));
-                i.putExtra("start_date",startDate.getText().toString());
-                i.putExtra("end_date",endDate.getText().toString());
+                i.putExtra("start_date", startDate.getText().toString());
+                i.putExtra("end_date", endDate.getText().toString());
                 startActivity(i);
             }
-        });
+        }
+    });
     }
     private void updateLabel() {
 
         String myFormat = "yyyy-MM-dd"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
-        if(isStartDate)
-            startDate.setText(sdf.format(date.getTime()));
+if(isStartDate)
+        startDate.setText(sdf.format(date.getTime()));
         else
-            endDate.setText(sdf.format(date.getTime()));
+    endDate.setText(sdf.format(date.getTime()));
     }
+
+
+
+    public boolean wrongDatesAlertDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Źle ustawione daty!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+        return true;
+
+    }
+
 
 }

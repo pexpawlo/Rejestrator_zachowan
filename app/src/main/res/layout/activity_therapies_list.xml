@@ -25,10 +25,10 @@
             android:id="@+id/activity_therapies_list_lv_therapies" />
 
         <Button
-            android:text="Button"
+            android:text="Wybierz"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/button5"
+            android:id="@+id/activity_therapies_list_btn_choose"
             android:layout_weight="0.34" />
     </LinearLayout>
 </RelativeLayout>

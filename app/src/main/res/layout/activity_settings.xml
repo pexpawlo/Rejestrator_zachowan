@@ -15,6 +15,13 @@ android:orientation="vertical"
         />
 
     <Button
+        android:text="Usuń terapię"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/activity_settings_btn_delete_therapies"
+        android:layout_weight="1" />
+
+    <Button
         android:text="inne przyciski na pozniej"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         setEditPatientsButton();
+        setEditTherapiesButton();
     }
 
     private void setEditPatientsButton() {
@@ -24,6 +25,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getApplicationContext(), EditPatientsActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+    private void setEditTherapiesButton() {
+        editPatientsButton = (Button) findViewById(R.id.activity_settings_btn_delete_therapies);
+        editPatientsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), TherapyPatientListActivity.class);
                 startActivity(i);
             }
         });

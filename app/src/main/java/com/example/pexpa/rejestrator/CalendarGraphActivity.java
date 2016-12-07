@@ -157,7 +157,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
         intervalsSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                setGraph(0,dataStart.getTime(),dataStop.getTime(),patientID);
+                setGraph(i,dataStart.getTime(),dataStop.getTime(),patientID);
             }
 
             @Override
@@ -180,6 +180,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(getApplicationContext(), cls);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
                 })

@@ -142,6 +142,7 @@ public  int iloscKlikniec=0;
                         db.updateTherapy(p.getId(),start,date,therapyID);
                         db.close();
                         i.putExtra("idTerapii", therapyID);
+                        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
                 })

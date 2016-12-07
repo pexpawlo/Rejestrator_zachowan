@@ -27,7 +27,7 @@ public class TherapiesListActivity extends AppCompatActivity {
         long patientid = getIntent().getExtras().getLong("id_pacjenta");
         a = new TherapyAdapter(db.getAllTherapies(" patient_id = " + patientid),this);
         therapiesListView.setAdapter(a);
-        Button btn = (Button) findViewById(R.id.button5);
+        Button btn = (Button) findViewById(R.id.activity_therapies_list_btn_choose);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
