@@ -1,6 +1,8 @@
 package com.example.pexpa.rejestrator;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,7 @@ public class TherapyPatientListActivity extends AppCompatActivity {
     private void setPatientsListView(){
 
         patientsListView = (ListView) findViewById(R.id.activity_therapy_patient_list_lv_patients);
+
         adapter = new PatientAdapter(db.getAllPatients(null), this);
         patientsListView.setAdapter(adapter);
         patientsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -48,16 +51,35 @@ public class TherapyPatientListActivity extends AppCompatActivity {
     }
 
     private void setShowPatientTherapiesButton(){
+
+
         showPatientTherapiesButton = (Button) findViewById(R.id.activity_therapy_patient_list_btn_choose);
         showPatientTherapiesButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(getApplicationContext(), EditTherapiesListActivity.class);
-                i.putExtra("id_pacjenta", adapter.which);
-                startActivity(i);
+if(adapter.which!=-1) {
+    Intent i = new Intent(getApplicationContext(), EditTherapiesListActivity.class);
+    i.putExtra("id_pacjenta", adapter.which);
+    startActivity(i);
+} else {
+    showPatientNotCheckedDialog();
+}
             }
         });
     }
+
+    public void showPatientNotCheckedDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Nie wybrano pacjenta!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 }

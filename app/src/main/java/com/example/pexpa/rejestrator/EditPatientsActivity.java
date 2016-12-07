@@ -61,24 +61,30 @@ public class EditPatientsActivity extends AppCompatActivity {
 
     private void setDeleteButton(){
         deleteButton = (Button) findViewById(R.id.usun_pacjenta_button);
+        deleteButton.setError("najpierw wybierz pacjenta");
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDeleteAlertDialog();
+                if(adapter.which!=-1) showDeleteAlertDialog();
+                else showPatientNotCheckedDialog();
             }
         });
+        deleteButton.setClickable(false);
     }
 
     private void setEditButton(){
         editButton = (Button) findViewById(R.id.edytuj_pacjenta_button);
+        deleteButton.setClickable(false);
         editButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                Intent i=new Intent(getApplicationContext(),EditPatientActivity.class);
-                i.putExtra("id_pacjenta", adapter.which);
-                startActivity(i);
+                if(adapter.which!=-1) {
+                    Intent i = new Intent(getApplicationContext(), EditPatientActivity.class);
+                    i.putExtra("id_pacjenta", adapter.which);
+                    startActivity(i);
+                }
+                else showPatientNotCheckedDialog();
             }
         });
     }
@@ -89,10 +95,9 @@ public class EditPatientsActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
-                Intent i=new Intent(getApplicationContext(),AddPatientActivity.class);
-                i.putExtra("id_pacjenta", adapter.which);
-                startActivity(i);
+    Intent i = new Intent(getApplicationContext(), AddPatientActivity.class);
+    i.putExtra("id_pacjenta", adapter.which);
+    startActivity(i);
             }
         });
 
@@ -113,8 +118,23 @@ public class EditPatientsActivity extends AppCompatActivity {
                 }
                 adapter.patients.get(i).checked = true;
                 adapter.which = adapter.patients.get(i).getId();
+                deleteButton.setClickable(true);
+                editButton.setClickable(true);
                 adapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public void showPatientNotCheckedDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Nie wybrano pacjenta!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

@@ -32,12 +32,16 @@
         android:layout_weight="0" />
 
     <Button
+        android:text="Eksportuj do csv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button" />
+
+    <Button
         android:text="Wyjdź do głównego menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/activity_summary_graph_btn_back_to_menu"
-        android:layout_weight="0.03"
-        />
+        android:id="@+id/activity_summary_graph_btn_back_to_menu" />
 
 
 </LinearLayout>

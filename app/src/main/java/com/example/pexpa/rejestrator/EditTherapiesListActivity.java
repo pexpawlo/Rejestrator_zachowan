@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -21,17 +22,34 @@ public class EditTherapiesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_therapies_list);
          patientid = getIntent().getExtras().getLong("id_pacjenta");
-
-        ListView therapiesListView = (ListView) findViewById(R.id.activity_edit_therapies_list_lv_therapies);
-
-
         a = new TherapyAdapter(db.getAllTherapies(" patient_id = " + patientid),this);
+        ListView therapiesListView = (ListView) findViewById(R.id.activity_edit_therapies_list_lv_therapies);
         therapiesListView.setAdapter(a);
+        therapiesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                for(int aa=0; aa<a.therapies.size(); aa++){
+                    a.therapies.get(aa).setChecked(false);
+                }
+                a.therapies.get(i).setChecked(true);
+                a.which = a.therapies.get(i).getId();
+                a.notifyDataSetChanged();
+            }
+        });
+
+
         Button btn = (Button) findViewById(R.id.activity_edit_therapies_list_btn_delete);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDeleteAlertDialog();            }
+                if(a.which!=-1) {
+                    showDeleteAlertDialog();
+                }
+                else{
+                    showTherapyNotCheckedDialog();
+                }
+            }
         });
     }
 
@@ -57,6 +75,19 @@ public class EditTherapiesListActivity extends AppCompatActivity {
                 .show();
         return true;
 
+    }
+
+    public void showTherapyNotCheckedDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Nie wybrano terapii!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }

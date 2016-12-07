@@ -21,8 +21,9 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="356dp"
-            android:id="@+id/activity_therapies_list_lv_therapies" />
+            android:layout_height="341dp"
+            android:id="@+id/activity_therapies_list_lv_therapies"
+            android:layout_weight="0.74" />
 
         <Button
             android:text="Wybierz"

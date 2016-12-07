@@ -25,12 +25,15 @@ public class AddPatientActivity extends AppCompatActivity {
         nameEditText = (EditText) findViewById(R.id.acitivity_add_patient_et_name);
         surnameEditText = (EditText) findViewById(R.id.acitivity_add_patient_et_surname);
         addPatientButton = (Button) findViewById(R.id.activity_add_patient_btn_save);
+        nameEditText.setHint("np. Jan");
+        surnameEditText.setHint("np. Kowalski");
         addPatientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(nameEditText.getText().toString().equals("") || surnameEditText.getText().toString().equals(""))
+                if(nameEditText.getText().toString().isEmpty() || surnameEditText.getText().toString().isEmpty())
                 {
-                    wrongNamesAlertDialog();
+                    if(nameEditText.getText().toString().isEmpty()) nameEditText.setError("To pole nie może być puste.");
+                    if(surnameEditText.getText().toString().isEmpty()) surnameEditText.setError("To pole nie może być puste.");
                 }
                 else {
                     db.open();
@@ -47,14 +50,5 @@ public class AddPatientActivity extends AppCompatActivity {
 
 
 
-    public boolean wrongNamesAlertDialog()
-    {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Imię i Nazwisko nie mogą być puste!")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-        return true;
-
-    }
 }

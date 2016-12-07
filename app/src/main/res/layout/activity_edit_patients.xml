@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.pexpa.rejestrator.EditPatientsActivity">
-
+    tools:context="com.example.pexpa.rejestrator.EditPatientsActivity"
+    android:weightSum="1">
 
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="269dp"
+        android:layout_height="301dp"
         android:id="@+id/activity_edit_patients_lv_patients" />
 
     <Button

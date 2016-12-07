@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Podsumowanie"
-        android:layout_weight="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:fontFamily="sans-serif"
         android:paddingBottom="40dp"
@@ -28,8 +27,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="0.07"
-        android:layout_height="85dp"
+        android:layout_height="64dp"
         android:layout_marginRight="15dp">
 
         <TextView
@@ -106,7 +104,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="wrap_content"
         android:layout_marginRight="15dp">
 
         <TextView

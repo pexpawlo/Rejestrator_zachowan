@@ -3,6 +3,7 @@ package com.example.pexpa.rejestrator;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -19,6 +21,10 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +43,7 @@ import bazadanych.Therapy;
 public class CalendarGraphActivity extends AppCompatActivity {
 
     TextView intervalsTextView;
+    Button exportToCsv;
     GraphView graph;
     ArrayList<Therapy> therapies;
     int[] intervalValues = {1, 5, 10, 15, 20, 30};
@@ -51,6 +58,28 @@ public class CalendarGraphActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_graph);
+        exportToCsv = (Button) findViewById(R.id.activity_calendar_graph_btn_export_to_csv);
+        exportToCsv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+
+                    File root = new File(Environment.getExternalStorageDirectory(), "Notes");
+                    if (!root.exists()) {
+                        root.mkdirs();
+                    }
+                    File gpxfile = new File(root, "NOWYPLIK");
+                    gpxfile.createNewFile();
+                    FileWriter writer = new FileWriter(gpxfile);
+                    writer.append("test");
+                    writer.flush();
+                    writer.close();
+                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         patientID = getIntent().getExtras().getLong("id_pacjenta");
 
         final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

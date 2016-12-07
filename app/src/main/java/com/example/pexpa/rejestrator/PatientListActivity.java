@@ -1,6 +1,8 @@
 package com.example.pexpa.rejestrator;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -43,7 +45,8 @@ public class PatientListActivity extends AppCompatActivity {
                 }
                 adapter.patients.get(i).checked = true;
                 adapter.which = (int) adapter.patients.get(i).getId();
-                showPatientTherapiesButton.setEnabled(true);
+
+                showPatientTherapiesButton.setClickable(true);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -51,15 +54,30 @@ public class PatientListActivity extends AppCompatActivity {
 
     private void setShowPatientTherapiesButton(){
         showPatientTherapiesButton = (Button) findViewById(R.id.zobacz_dane_pacjenta_button);
+
         showPatientTherapiesButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(getApplicationContext(), ChooseGraphTypeActivity.class);
-                i.putExtra("id_pacjenta", adapter.which);
-                startActivity(i);
+if(adapter.which!=-1) {
+    Intent i = new Intent(getApplicationContext(), ChooseGraphTypeActivity.class);
+    i.putExtra("id_pacjenta", adapter.which);
+    startActivity(i);
+}
+                else showPatientNotCheckedDialog();
             }
         });
+    }
+    public void showPatientNotCheckedDialog()
+    {
+
+        new AlertDialog.Builder(this)
+                .setTitle("Nie wybrano pacjenta!")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dip"
             android:id="@+id/activity_calendar_graph_gv_graph"
-            android:layout_weight="0.10" />
+            android:layout_weight="0.08" />
         <TextView
             android:text="TextView"
             android:layout_width="match_parent"
@@ -33,6 +33,13 @@
             android:max="5"
             android:progress="0"
             android:id="@+id/activity_calendar_graph_sb_intervals" />
+
+        <Button
+            android:text="export to csv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_calendar_graph_btn_export_to_csv" />
+
         <Button
             android:text="Wróć do głównego menu"
             android:layout_width="match_parent"

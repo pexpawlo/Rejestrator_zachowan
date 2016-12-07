@@ -37,10 +37,12 @@ public class ChooseDateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choose_date);
         startDate = (EditText) findViewById(R.id.activity_choose_date_et_start);
         endDate = (EditText) findViewById(R.id.activity_choose_date_et_end);
+        startDate.setHint("np. 2000-01-01");
+        endDate.setHint("np. 2000-01-31");
         patientTextView = (TextView) findViewById(R.id.activity_choose_date_tv_patient);
         DBManager db = new DBManager(this);
         Patient patient = db.getAllPatients(" id = "+getIntent().getExtras().getLong("id_pacjenta")).get(0);
-        patientTextView.setText(patient.getName()+" "+patient.getSurname());
+        patientTextView.setText("Wybrano pacjenta: "+patient.getName()+" "+patient.getSurname());
         startDate.setFocusable(false);
         endDate.setFocusable(false);
         isStartDate = false;
@@ -100,7 +102,9 @@ public class ChooseDateActivity extends AppCompatActivity {
             }
 
             if(dateFirst==null || dateSecond==null || dateFirst.getTime()>dateSecond.getTime()){
-                wrongDatesAlertDialog();
+                if(dateFirst==null) startDate.setError("To pole nie może być puste.");
+                if(dateSecond==null) endDate.setError("To pole nie moze być puste.");
+                if(dateFirst.getTime()>dateSecond.getTime()) endDate.setError("Data zakończenia nie może być późniejsza od daty rozpoczęcia.");
             }
 
             else {
@@ -125,21 +129,7 @@ if(isStartDate)
 
 
 
-    public boolean wrongDatesAlertDialog()
-    {
 
-        new AlertDialog.Builder(this)
-                .setTitle("Źle ustawione daty!")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-        return true;
-
-    }
 
 
 }

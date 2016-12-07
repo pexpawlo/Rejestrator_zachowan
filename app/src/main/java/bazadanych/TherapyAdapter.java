@@ -61,6 +61,7 @@ public class TherapyAdapter extends BaseAdapter {
             holder.dateEnd = (TextView) convertView.findViewById(R.id.row_therapy_tv_date_end);
             holder.checkedRadioButton = (RadioButton) convertView.findViewById(R.id.row_therapy_rb_checked);
             convertView.setTag(holder);
+
         } else {
             holder = (TherapyAdapter.TherapiesListElement) convertView.getTag();
         }
