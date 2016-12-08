@@ -1,9 +1,13 @@
 package com.example.pexpa.rejestrator;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +45,12 @@ import bazadanych.Event;
 import bazadanych.Therapy;
 
 public class CalendarGraphActivity extends AppCompatActivity {
-
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    ArrayList<DataPoint> entries;
     TextView intervalsTextView;
     Button exportToCsv;
     GraphView graph;
@@ -62,21 +71,36 @@ public class CalendarGraphActivity extends AppCompatActivity {
         exportToCsv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
+                int permission = ActivityCompat.checkSelfPermission(CalendarGraphActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-                    File root = new File(Environment.getExternalStorageDirectory(), "Notes");
-                    if (!root.exists()) {
-                        root.mkdirs();
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    // We don't have permission so prompt the user
+                    ActivityCompat.requestPermissions(
+                            CalendarGraphActivity.this,
+                            PERMISSIONS_STORAGE,
+                            REQUEST_EXTERNAL_STORAGE
+                    );
+                }
+
+                if (permission == PackageManager.PERMISSION_GRANTED) {
+                    try {
+
+                        File root = new File(Environment.getExternalStorageDirectory(), "Downloads");
+                        if (!root.exists()) {
+                            root.mkdirs();
+                        }
+                        File gpxfile = new File(root, "NOWYPLIK");
+                        gpxfile.createNewFile();
+                        FileWriter writer = new FileWriter(gpxfile);
+                        for (int i = 0; i < entries.size(); i++) {
+                            writer.append(entries.get(i).getX() + "," + entries.get(i).getY() + "\n");
+                        }
+                        writer.flush();
+                        writer.close();
+                        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    File gpxfile = new File(root, "NOWYPLIK");
-                    gpxfile.createNewFile();
-                    FileWriter writer = new FileWriter(gpxfile);
-                    writer.append("test");
-                    writer.flush();
-                    writer.close();
-                    Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -114,8 +138,9 @@ public class CalendarGraphActivity extends AppCompatActivity {
     private void setGraph(int interval,long dataStart,long dataStop,long patientID ) {
 
         intervalsTextView.setText("Interwały: " + intervalValues[interval] + " min.");
-        ArrayList<DataPoint> entries = new ArrayList<>();
+        entries = new ArrayList<>();
         entries.add(new DataPoint(0, 0));
+
         long addTime = 60 * 60 * 24 * 1000;
         long start = dataStart;
         long end = dataStop;

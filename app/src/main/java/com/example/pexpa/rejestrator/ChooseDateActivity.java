@@ -101,10 +101,10 @@ public class ChooseDateActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            if(dateFirst==null || dateSecond==null || dateFirst.getTime()>dateSecond.getTime()){
-                if(dateFirst==null) startDate.setError("To pole nie może być puste.");
-                if(dateSecond==null) endDate.setError("To pole nie moze być puste.");
-                if(dateFirst.getTime()>dateSecond.getTime()) endDate.setError("Data zakończenia nie może być późniejsza od daty rozpoczęcia.");
+            if(startDate.getText().toString().isEmpty() || endDate.getText().toString().isEmpty() || dateFirst.getTime()>dateSecond.getTime()){
+                if(startDate.getText().toString().isEmpty()) startDate.setError("To pole nie może być puste.");
+                if(endDate.getText().toString().isEmpty()) endDate.setError("To pole nie moze być puste.");
+                if(dateFirst!=null && dateSecond!=null && dateFirst.getTime()>dateSecond.getTime()) endDate.setError("Data zakończenia nie może być późniejsza od daty rozpoczęcia.");
             }
 
             else {
