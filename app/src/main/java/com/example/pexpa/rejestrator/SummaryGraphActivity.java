@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,8 +43,7 @@ public class SummaryGraphActivity extends AppCompatActivity {
         graph = (GraphView) findViewById(R.id.activity_summary_graph_gv_graph);
         setBackToMainMenuButton();
         setIntervalsSeekBar();
-        setGraph(0);
-
+       setGraph(0);
 
 
     }
@@ -57,6 +58,10 @@ public class SummaryGraphActivity extends AppCompatActivity {
                 showBackToManMenuAlertDialog(MainActivity.class);
             }
         });
+    }
+    private void presetGraph(){
+
+
     }
 
     private void setGraph(final int interval){
@@ -75,7 +80,6 @@ public class SummaryGraphActivity extends AppCompatActivity {
             String startString = SDF.format(j);
             String endString = SDF.format(j+addTime);
             ArrayList<Event> EventList = db.getAllEvents(" event_time>='"+startString +"' AND event_time<'"+endString+"';");
-           // if(EventList.size()>0)
             entries.add(new DataPoint(k,EventList.size()));
             if(sizeMax< EventList.size())
                 sizeMax = EventList.size();
@@ -87,14 +91,16 @@ public class SummaryGraphActivity extends AppCompatActivity {
 
         graph.removeAllSeries();
         graph.addSeries(series);
+      //  graph.getGridLabelRenderer().setLabelHorizontalHeight(100);//TODO
+
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
                 if (isValueX) {
-                    if (value*intervalValues[interval] % 5 == 0) {
+                  //  if (value*intervalValues[interval] % 5 == 0) {
                         return value*intervalValues[interval]+" min";
 
-                    } else return "";
+                   // } else return "";
                 } else {
 
                     return super.formatLabel(value, isValueX);
@@ -102,13 +108,14 @@ public class SummaryGraphActivity extends AppCompatActivity {
             }
         });
         graph.getGridLabelRenderer().setHorizontalLabelsAngle(90);
-        graph.getGridLabelRenderer().setLabelHorizontalHeight(100);//TODO
+
+
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(10);
         graph.getViewport().setMaxY(sizeMax*1.5);
         graph.getViewport().setMinY(0);
 
-        series.setSpacing(15);
+       series.setSpacing(15);
         graph.getViewport().setXAxisBoundsManual(true);
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScrollable(true);

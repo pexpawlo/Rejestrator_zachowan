@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,16 +21,15 @@ import bazadanych.Patient;
 
 public class TherapyActivity extends AppCompatActivity {
 
-public  int iloscKlikniec=0;
-    public  int czasKoncowy;
+
     public Date start;
     public Patient p;
     DBManager db;
     public int seconds = 0;
     public int minutes = 0;
     public long therapyID;
-
-
+    TextView lastAction;
+    Toast showInfo;
     @Override
     public void onBackPressed() {
 
@@ -40,9 +40,14 @@ public  int iloscKlikniec=0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_therapy);
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         start = new Date();
         Button button = (Button) findViewById(R.id.dodaj_zdarzenie_button);
-
+        lastAction = (TextView) findViewById(R.id.textView5);
+        lastAction.setText("Ostatnie zdarzenie: ");
+        showInfo = null;
         //Declare the timer
         Timer t = new Timer();
         //Set the schedule function and rate
@@ -94,7 +99,14 @@ public  int iloscKlikniec=0;
                 db.insertEvent(p.getId(),date);
                 db.updateTherapy(p.getId(),start,date,therapyID);
                 db.close();
-                Toast.makeText(TherapyActivity.this, "Pomyslnie dodano zdarzenie. Czas: " + data , Toast.LENGTH_SHORT).show();
+
+                if (showInfo!=null){
+                    showInfo.cancel();
+            }
+                showInfo =   Toast.makeText(TherapyActivity.this, "Pomyslnie dodano zdarzenie. Czas: " + data , Toast.LENGTH_SHORT);
+                showInfo.show();
+
+                lastAction.setText("Ostatnie zdarzenie: " + data);
             }
         });
         Bundle extras = getIntent().getExtras();
@@ -134,7 +146,7 @@ public  int iloscKlikniec=0;
 
         new AlertDialog.Builder(this)
                 .setTitle("Zakończyć badanie?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                .setPositiveButton("TAK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i=new Intent(getApplicationContext(),cls);
                         Date date = new Date();
@@ -146,7 +158,7 @@ public  int iloscKlikniec=0;
                         startActivity(i);
                     }
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                .setNegativeButton("NIE", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         //nic nie robimy
                     }

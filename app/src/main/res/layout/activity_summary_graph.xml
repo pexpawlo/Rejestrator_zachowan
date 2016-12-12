@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/activity_summaty_graph_tv_intervals"
-        android:layout_weight="0" />
+        android:layout_weight="0." />
 
     <SeekBar
         style="Widget.AppCompat.SeekBar.Discrete"

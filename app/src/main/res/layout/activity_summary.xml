@@ -31,7 +31,7 @@
         android:layout_marginRight="15dp">
 
         <TextView
-            android:text="Czas rozpoczęcia terapii:"
+            android:text="Czas rozpoczęcia sesji:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,12 +52,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_weight="0.18"
-        android:layout_height="85dp"
+        android:layout_height="62dp"
         android:layout_marginRight="15dp">
 
         <TextView
-            android:text="Czas zakończenia terapii:"
+            android:text="Czas zakończenia sesji:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -79,11 +78,11 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="59dp"
         android:layout_marginRight="15dp">
 
         <TextView
-            android:text="Czas trwania terapii:"
+            android:text="Czas trwania sesji:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -105,7 +104,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp">
+        android:layout_marginRight="15dp"
+        android:layout_weight="0.13">
 
         <TextView
             android:text="Ilość zdarzeń:"

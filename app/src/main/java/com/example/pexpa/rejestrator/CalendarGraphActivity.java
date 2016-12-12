@@ -42,6 +42,7 @@ import java.util.SortedMap;
 
 import bazadanych.DBManager;
 import bazadanych.Event;
+import bazadanych.Patient;
 import bazadanych.Therapy;
 
 public class CalendarGraphActivity extends AppCompatActivity {
@@ -54,7 +55,6 @@ public class CalendarGraphActivity extends AppCompatActivity {
     TextView intervalsTextView;
     Button exportToCsv;
     GraphView graph;
-    ArrayList<Therapy> therapies;
     int[] intervalValues = {1, 5, 10, 15, 20, 30};
     DBManager db = new DBManager(this);
     SeekBar intervalsSeekBar;
@@ -74,7 +74,6 @@ public class CalendarGraphActivity extends AppCompatActivity {
                 int permission = ActivityCompat.checkSelfPermission(CalendarGraphActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
                 if (permission != PackageManager.PERMISSION_GRANTED) {
-                    // We don't have permission so prompt the user
                     ActivityCompat.requestPermissions(
                             CalendarGraphActivity.this,
                             PERMISSIONS_STORAGE,
@@ -85,11 +84,13 @@ public class CalendarGraphActivity extends AppCompatActivity {
                 if (permission == PackageManager.PERMISSION_GRANTED) {
                     try {
 
-                        File root = new File(Environment.getExternalStorageDirectory(), "Downloads");
+                        File root = new File(Environment.getExternalStorageDirectory(), "TerapiaAutyzm");
                         if (!root.exists()) {
                             root.mkdirs();
                         }
-                        File gpxfile = new File(root, "NOWYPLIK");
+                        List<Patient> patients = db.getAllPatients("id = "+patientID);
+                        String fileName = patients.get(0).getName() + "_" + patients.get(0).getSurname() +"_" + getIntent().getExtras().getString("start_date")+"_"+ getIntent().getExtras().getString("end_date");
+                        File gpxfile = new File(root, fileName);
                         gpxfile.createNewFile();
                         FileWriter writer = new FileWriter(gpxfile);
                         for (int i = 0; i < entries.size(); i++) {
@@ -119,6 +120,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
         setBackToMainMenuButton();
         setIntervalsSeekBar();
         setGraph(0,dataStart.getTime(),dataStop.getTime(),patientID);
+
     }
 
     private void setBackToMainMenuButton() {
@@ -140,12 +142,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
         intervalsTextView.setText("Interwały: " + intervalValues[interval] + " min.");
         entries = new ArrayList<>();
         entries.add(new DataPoint(0, 0));
-
-        long addTime = 60 * 60 * 24 * 1000;
-        long start = dataStart;
-        long end = dataStop;
         Long intervalMilis = new Long(intervalValues[interval]*1000*60);
-
         Map<Long,Boolean> mapa = new HashMap<Long,Boolean>();
         for(int i=0; i<eventList.size(); i++){
 
@@ -191,7 +188,9 @@ public class CalendarGraphActivity extends AppCompatActivity {
                 if (isValueX) {
                     Date date = new Date();
                     date.setTime((long) (date.getTime() + value * 60 * 60 * 24 * 1000));
-                    if (value % 7 == 0) {
+                    if (value %7 == 0) {
+
+
                         return new SimpleDateFormat("yyyy-MM-dd").format(date);
 
                     } else return "";
@@ -204,6 +203,7 @@ public class CalendarGraphActivity extends AppCompatActivity {
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setScrollable(true);
         graph.getViewport().setScalable(true);
+       // graph.getGridLabelRenderer().setNumHorizontalLabels(5);
     }
 
     private void setIntervalsSeekBar() {
